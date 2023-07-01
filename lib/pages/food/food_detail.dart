@@ -1,13 +1,16 @@
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/widgets/expandable_text_widget.dart';
 import 'package:delivrili/widgets/reusable_column.dart';
 import 'package:delivrili/widgets/reusable_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../utils/theme_colors.dart';
 import '../../widgets/icon_text_widget.dart';
 import '../../widgets/text_font_big.dart';
 import '../../widgets/text_font_small.dart';
+import '../home/home_page.dart';
 
 class PopularFoodDetailsView extends StatelessWidget {
   const PopularFoodDetailsView({super.key});
@@ -38,10 +41,15 @@ class PopularFoodDetailsView extends StatelessWidget {
             top: Dimensions.height45,
             left: Dimensions.width20,
             right: Dimensions.width20,
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ReusableIcons(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.homeRoute);
+                  },
+                  child: ReusableIcons(icon: Icons.arrow_back_ios),
+                ),
                 ReusableIcons(icon: Icons.shopping_cart_outlined),
               ],
             ),

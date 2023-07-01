@@ -7,16 +7,23 @@ class PopularFoodController extends GetxController {
 
   PopularFoodController({required this.foodRepo});
 
-  List<dynamic> _popularFoodList = [];
-  List<dynamic> get popularProductList => _popularFoodList;
+  List<ProductModel> _popularProductList = [];
+  List<ProductModel> get popularProductList => _popularProductList;
 
-  Future<void> getPopularFoodList() async {
-    Response response = await foodRepo.getPopularFoodList();
+  bool _isLoaded = false;
+  bool get isLoaded => _isLoaded;
 
+  Future<void> getPopularProductList() async {
+    Response response = await foodRepo.getPopularProductList();
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      _popularFoodList = [];
-      _popularFoodList.addAll(Product.fromJson(response.body).products);
+      _popularProductList = [];
+      _popularProductList.addAll(Product.fromJson(response.body).products);
+      _isLoaded = true;
+
       update(); //Let the UI know that the data has been updated
-    } else {}
+    } else {
+      print("error");
+    }
   }
 }

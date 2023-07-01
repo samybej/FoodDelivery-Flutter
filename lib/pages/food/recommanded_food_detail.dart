@@ -1,9 +1,11 @@
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/expandable_text_widget.dart';
 import 'package:delivrili/widgets/reusable_icons.dart';
 import 'package:delivrili/widgets/text_font_big.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SelectedFoodDetailsView extends StatelessWidget {
   const SelectedFoodDetailsView({super.key});
@@ -16,11 +18,16 @@ class SelectedFoodDetailsView extends StatelessWidget {
         // slivers are widgets that allow us to do special effects
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 60,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ReusableIcons(icon: Icons.clear),
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.homeRoute);
+                    },
+                    child: ReusableIcons(icon: Icons.clear)),
                 ReusableIcons(icon: Icons.shopping_cart_outlined),
               ],
             ),
