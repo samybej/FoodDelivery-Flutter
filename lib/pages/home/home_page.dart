@@ -1,4 +1,4 @@
-import 'package:delivrili/home/home_page_body.dart';
+import 'package:delivrili/pages/home/home_page_body.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/text_font_big.dart';
@@ -56,7 +56,7 @@ class _FoodPageViewState extends State<FoodPageView> {
                       child: Icon(
                         Icons.search,
                         color: Colors.white,
-                        size: Dimensions.iconSize,
+                        size: Dimensions.iconSize24,
                       ),
                     ),
                   ),
@@ -65,7 +65,11 @@ class _FoodPageViewState extends State<FoodPageView> {
             ),
           ),
           //The body
-          const FoodPageBodyView(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: const FoodPageBodyView(),
+            ),
+          ),
         ],
       ),
     );
