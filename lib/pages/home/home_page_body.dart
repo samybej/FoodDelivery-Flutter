@@ -235,7 +235,7 @@ class _FoodPageBodyViewState extends State<FoodPageBodyView> {
               //For the child, we will use a container first because it has a 'padding' property
               child: Container(
                 padding: EdgeInsets.only(
-                    top: Dimensions.height15,
+                    top: Dimensions.height10,
                     left: Dimensions.width15,
                     right: Dimensions.width15),
                 child: const ReusableColumn(text: "chine number one"),

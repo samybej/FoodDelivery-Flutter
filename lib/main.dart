@@ -2,6 +2,7 @@ import 'package:delivrili/controllers/popular_food_controller.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/pages/food/recommanded_food_detail.dart';
 import 'package:delivrili/pages/home/home_page.dart';
+import 'package:delivrili/pages/home/home_page_body.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'helpers/dependencies.dart' as dep;
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SelectedFoodDetailsView(),
+      home: const FoodPageView(),
     );
   }
 }
