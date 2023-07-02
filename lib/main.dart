@@ -1,5 +1,6 @@
 import 'package:delivrili/controllers/popular_food_controller.dart';
 import 'package:delivrili/controllers/recommanded_food_controller.dart';
+import 'package:delivrili/pages/cart/cart_view.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/pages/food/recommanded_food_detail.dart';
 import 'package:delivrili/pages/home/home_page.dart';

@@ -1,5 +1,6 @@
 import 'package:delivrili/controllers/cart_controller.dart';
 import 'package:delivrili/controllers/popular_food_controller.dart';
+import 'package:delivrili/pages/cart/cart_view.dart';
 import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/api_constants.dart';
 import 'package:delivrili/utils/dimensions.dart';
@@ -79,11 +80,16 @@ class PopularFoodDetailsView extends StatelessWidget {
                                 ? Positioned(
                                     right: 0,
                                     top: 0,
-                                    child: ReusableIcons(
-                                      icon: Icons.circle,
-                                      size: 20,
-                                      iconColor: Colors.transparent,
-                                      backgroundColor: AppColors.mainColor,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => CartView());
+                                      },
+                                      child: ReusableIcons(
+                                        icon: Icons.circle,
+                                        size: 20,
+                                        iconColor: Colors.transparent,
+                                        backgroundColor: AppColors.mainColor,
+                                      ),
                                     ),
                                   )
                                 : Container(),

@@ -1,4 +1,5 @@
 import 'package:delivrili/controllers/cart_controller.dart';
+import 'package:delivrili/models/cart.dart';
 import 'package:delivrili/models/product.dart';
 import 'package:delivrili/repository/food_repo.dart';
 import 'package:delivrili/utils/theme_colors.dart';
@@ -86,5 +87,9 @@ class PopularFoodController extends GetxController {
 
   int get totalItems {
     return _cart.totalItems;
+  }
+
+  List<CartModel> get getItems {
+    return _cart.getItems;
   }
 }
