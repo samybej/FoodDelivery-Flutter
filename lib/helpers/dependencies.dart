@@ -1,4 +1,6 @@
+import 'package:delivrili/controllers/cart_controller.dart';
 import 'package:delivrili/controllers/recommanded_food_controller.dart';
+import 'package:delivrili/repository/cart_repo.dart';
 import 'package:delivrili/repository/recommanded_food_repo.dart';
 import 'package:delivrili/service/api_client.dart';
 import 'package:delivrili/utils/api_constants.dart';
@@ -13,7 +15,9 @@ Future<void> init() async {
   //Initializing the repo
   Get.lazyPut(() => FoodRepo(apiClient: Get.find()));
   Get.lazyPut(() => RecommandedFoodRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CartRepo(apiClient: Get.find()));
   //Controllers
   Get.lazyPut(() => PopularFoodController(foodRepo: Get.find()));
   Get.lazyPut(() => RecommandedFoodController(recommandedFoodRepo: Get.find()));
+  Get.lazyPut(() => CartController(cartRepo: Get.find()));
 }

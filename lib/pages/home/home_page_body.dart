@@ -1,6 +1,6 @@
 import 'package:delivrili/controllers/popular_food_controller.dart';
 import 'package:delivrili/controllers/recommanded_food_controller.dart';
-import 'package:delivrili/models/food.dart';
+import 'package:delivrili/models/product.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/api_constants.dart';
@@ -120,7 +120,7 @@ class _FoodPageBodyViewState extends State<FoodPageBodyView> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.toNamed(Routes.recommandedFood);
+                          Get.toNamed(Routes.getRecommandedFood(index));
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -255,7 +255,7 @@ class _FoodPageBodyViewState extends State<FoodPageBodyView> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.popularFood);
+              Get.toNamed(Routes.getPopularFood(index));
             },
             child: Container(
               height: Dimensions.pageViewContainer,

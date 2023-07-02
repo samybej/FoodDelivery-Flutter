@@ -1,4 +1,4 @@
-import 'package:delivrili/models/food.dart';
+import 'package:delivrili/models/product.dart';
 import 'package:delivrili/repository/recommanded_food_repo.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,7 @@
+import 'package:delivrili/controllers/cart_controller.dart';
+import 'package:delivrili/controllers/popular_food_controller.dart';
 import 'package:delivrili/routes/routes.dart';
+import 'package:delivrili/utils/api_constants.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/widgets/expandable_text_widget.dart';
 import 'package:delivrili/widgets/reusable_column.dart';
@@ -13,10 +16,17 @@ import '../../widgets/text_font_small.dart';
 import '../home/home_page.dart';
 
 class PopularFoodDetailsView extends StatelessWidget {
-  const PopularFoodDetailsView({super.key});
+  final index;
+  const PopularFoodDetailsView({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    //get the instance from the list based on the index
+    var selectedProduct =
+        Get.find<PopularFoodController>().popularProductList[index];
+    Get.find<PopularFoodController>()
+        .initProudct(selectedProduct, Get.find<CartController>());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -29,30 +39,74 @@ class PopularFoodDetailsView extends StatelessWidget {
             child: Container(
               width: double.maxFinite,
               height: Dimensions.foodDetailImgSize,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("assets/image/food0.png"),
+                image: NetworkImage(
+                  AppConstants.BASE_URL +
+                      AppConstants.UPLOAD_IMG_URL +
+                      selectedProduct.img!,
+                ),
               )),
             ),
           ),
           //back and shop icons
-          Positioned(
-            top: Dimensions.height45,
-            left: Dimensions.width20,
-            right: Dimensions.width20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.homeRoute);
-                  },
-                  child: ReusableIcons(icon: Icons.arrow_back_ios),
+          GetBuilder<PopularFoodController>(
+            // init: PopularFoodController(),
+            //initState: (_) {},
+            builder: (popularProduct) {
+              return Positioned(
+                top: Dimensions.height45,
+                left: Dimensions.width20,
+                right: Dimensions.width20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.getHome());
+                      },
+                      child: ReusableIcons(icon: Icons.arrow_back_ios),
+                    ),
+                    GetBuilder<PopularFoodController>(
+                      // init: MyController(),
+                      // initState: (_) {},
+                      builder: (_) {
+                        return Stack(
+                          children: [
+                            ReusableIcons(icon: Icons.shopping_cart_outlined),
+                            Get.find<PopularFoodController>().totalItems > 0
+                                ? Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: ReusableIcons(
+                                      icon: Icons.circle,
+                                      size: 20,
+                                      iconColor: Colors.transparent,
+                                      backgroundColor: AppColors.mainColor,
+                                    ),
+                                  )
+                                : Container(),
+                            Get.find<PopularFoodController>().totalItems > 0
+                                ? Positioned(
+                                    right: 3,
+                                    top: 3,
+                                    child: BigText(
+                                      text: Get.find<PopularFoodController>()
+                                          .totalItems
+                                          .toString(),
+                                      size: 12,
+                                      color: Colors.white,
+                                    ))
+                                : Container(),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                ReusableIcons(icon: Icons.shopping_cart_outlined),
-              ],
-            ),
+              );
+            },
           ),
           //the reusable text widget (introduction of the selected food + Description)
           Positioned(
@@ -76,15 +130,13 @@ class PopularFoodDetailsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ReusableColumn(text: "china number one"),
+                  ReusableColumn(text: selectedProduct.name!),
                   SizedBox(height: Dimensions.height20),
                   BigText(text: 'Description', size: Dimensions.font20),
                   SizedBox(height: Dimensions.height20),
                   Expanded(
-                    child: const SingleChildScrollView(
-                      child: ExpandableText(
-                          text:
-                              "testing the description. For now we are simply using a random text to see how well the expansion functions on the page. If it doesnt, we have some work to do ... don't we ? ...However, let's make the text a little bit longer to test the overflow error, just ... a little .... longer.... let's test again with the new updated long text and see if we get any errors . testing the description. For now we are simply using a random text to see how well the expansion functions on the page. If it doesnt, we have some work to do ... don't we ? ...However, let's make the text a little bit longer to test the overflow error, just ... a little .... longer.... let's test again with the new updated long text and see if we get any errors . testing the description. For now we are simply using a random text to see how well the expansion functions on the page. If it doesnt, we have some work to do ... don't we ? ...However, let's make the text a little bit longer to test the overflow error, just ... a little .... longer.... let's test again with the new updated long text and see if we get any errors"),
+                    child: SingleChildScrollView(
+                      child: ExpandableText(text: selectedProduct.description!),
                     ),
                   ),
                 ],
@@ -93,56 +145,78 @@ class PopularFoodDetailsView extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: Dimensions.bottomNavigationHeight,
-        padding: EdgeInsets.only(
-            top: Dimensions.height30,
-            bottom: Dimensions.height30,
-            left: Dimensions.width20,
-            right: Dimensions.width20),
-        decoration: BoxDecoration(
-            color: AppColors.buttonBackgroundColor,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(Dimensions.radius20 * 2),
-              topLeft: Radius.circular(Dimensions.radius20 * 2),
-            )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimensions.height15,
-                  bottom: Dimensions.height15,
-                  left: Dimensions.width20,
-                  right: Dimensions.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: Colors.white,
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.remove, color: AppColors.signColor),
-                  SizedBox(width: Dimensions.width10 / 2),
-                  BigText(text: '0'),
-                  SizedBox(width: Dimensions.width10 / 2),
-                  Icon(Icons.add, color: AppColors.signColor),
-                ],
-              ),
+      bottomNavigationBar: GetBuilder<PopularFoodController>(
+        // init: MyController(),
+        //initState: (_) {},
+        builder: (popularProduct) {
+          return Container(
+            height: Dimensions.bottomNavigationHeight,
+            padding: EdgeInsets.only(
+                top: Dimensions.height30,
+                bottom: Dimensions.height30,
+                left: Dimensions.width20,
+                right: Dimensions.width20),
+            decoration: BoxDecoration(
+                color: AppColors.buttonBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(Dimensions.radius20 * 2),
+                  topLeft: Radius.circular(Dimensions.radius20 * 2),
+                )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimensions.height15,
+                      bottom: Dimensions.height15,
+                      left: Dimensions.width20,
+                      right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            popularProduct.setProductQuantity(false);
+                          },
+                          child:
+                              Icon(Icons.remove, color: AppColors.signColor)),
+                      SizedBox(width: Dimensions.width10 / 2),
+                      BigText(text: popularProduct.inCartItems.toString()),
+                      SizedBox(width: Dimensions.width10 / 2),
+                      GestureDetector(
+                          onTap: () {
+                            popularProduct.setProductQuantity(true);
+                          },
+                          child: Icon(Icons.add, color: AppColors.signColor)),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    popularProduct.addIem(selectedProduct);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: Dimensions.height15,
+                        bottom: Dimensions.height15,
+                        left: Dimensions.width20,
+                        right: Dimensions.width20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: AppColors.mainColor,
+                    ),
+                    child: BigText(
+                        text: "\$ ${selectedProduct.price} | Add To Cart",
+                        color: Colors.white),
+                  ),
+                )
+              ],
             ),
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimensions.height15,
-                  bottom: Dimensions.height15,
-                  left: Dimensions.width20,
-                  right: Dimensions.width20),
-              child: BigText(text: '\$10 | Add To Cart', color: Colors.white),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: AppColors.mainColor,
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }
