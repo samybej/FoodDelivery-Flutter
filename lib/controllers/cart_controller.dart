@@ -174,4 +174,8 @@ class CartController extends GetxController {
 
     return correspondingList;
   }
+
+  Map<int, CartModel> setorderMoreMap(Map<int, CartModel> orderMoreMap) {
+    return orderMoreMap;
+  }
 }

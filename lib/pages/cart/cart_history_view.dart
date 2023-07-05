@@ -1,4 +1,5 @@
 import 'package:delivrili/controllers/cart_controller.dart';
+import 'package:delivrili/models/cart.dart';
 import 'package:delivrili/utils/api_constants.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
@@ -117,8 +118,27 @@ class CartHistoryView extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print(
-                                        "${cartController.getCorrespondingItemsPerTime(time)[0].name}");
+                                    List<CartModel> orderMoreList =
+                                        cartController
+                                            .getCorrespondingItemsPerTime(time);
+                                    Map<int, CartModel> orderMoreMap = {};
+                                    for (int j = 0;
+                                        j < orderMoreList.length;
+                                        j++) {
+                                      orderMoreMap.putIfAbsent(
+                                          orderMoreList[j].product!.id!, () {
+                                        return orderMoreList[j];
+                                      });
+                                    }
+                                    orderMoreMap.forEach((key, value) {
+                                      print("key is : $key");
+                                      print("value is : ${value.name}");
+                                      print("value is : ${value.price}");
+                                      print("value is : ${value.quantity}");
+                                    });
+
+                                    cartController
+                                        .setorderMoreMap(orderMoreMap);
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -130,7 +150,7 @@ class CartHistoryView extends StatelessWidget {
                                       border: Border.all(
                                           width: 1, color: AppColors.mainColor),
                                     ),
-                                    child: SmallText(text: "one more"),
+                                    child: SmallText(text: "order more"),
                                   ),
                                 )
                               ],
