@@ -76,9 +76,7 @@ class PopularFoodDetailsView extends StatelessWidget {
                       builder: (popularProduct) {
                         return GestureDetector(
                           onTap: () {
-                            popularProduct.totalItems > 0
-                                ? Get.toNamed(Routes.getCartPage())
-                                : print("testing tap condition");
+                            Get.toNamed(Routes.getCartPage());
                           },
                           child: Stack(
                             children: [
