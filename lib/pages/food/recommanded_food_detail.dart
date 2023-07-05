@@ -15,7 +15,9 @@ import '../../controllers/cart_controller.dart';
 
 class SelectedFoodDetailsView extends StatelessWidget {
   final index;
-  const SelectedFoodDetailsView({super.key, required this.index});
+  final String? previous;
+  const SelectedFoodDetailsView(
+      {super.key, required this.index, this.previous});
 
   @override
   Widget build(BuildContext context) {
@@ -36,46 +38,48 @@ class SelectedFoodDetailsView extends StatelessWidget {
               children: [
                 GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routes.getHome());
+                      previous != null
+                          ? Get.toNamed(Routes.getCartPage())
+                          : Get.toNamed(Routes.getHome());
                     },
                     child: ReusableIcons(icon: Icons.clear)),
                 GetBuilder<PopularFoodController>(
                   // init: MyController(),
                   // initState: (_) {},
                   builder: (_) {
-                    return Stack(
-                      children: [
-                        ReusableIcons(icon: Icons.shopping_cart_outlined),
-                        Get.find<PopularFoodController>().totalItems > 0
-                            ? Positioned(
-                                right: 0,
-                                top: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => CartView());
-                                  },
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.getCartPage());
+                      },
+                      child: Stack(
+                        children: [
+                          ReusableIcons(icon: Icons.shopping_cart_outlined),
+                          Get.find<PopularFoodController>().totalItems > 0
+                              ? Positioned(
+                                  right: 0,
+                                  top: 0,
                                   child: ReusableIcons(
                                     icon: Icons.circle,
                                     size: 20,
                                     iconColor: Colors.transparent,
                                     backgroundColor: AppColors.mainColor,
                                   ),
-                                ),
-                              )
-                            : Container(),
-                        Get.find<PopularFoodController>().totalItems > 0
-                            ? Positioned(
-                                right: 3,
-                                top: 3,
-                                child: BigText(
-                                  text: Get.find<PopularFoodController>()
-                                      .totalItems
-                                      .toString(),
-                                  size: 12,
-                                  color: Colors.white,
-                                ))
-                            : Container(),
-                      ],
+                                )
+                              : Container(),
+                          Get.find<PopularFoodController>().totalItems > 0
+                              ? Positioned(
+                                  right: 3,
+                                  top: 3,
+                                  child: BigText(
+                                    text: Get.find<PopularFoodController>()
+                                        .totalItems
+                                        .toString(),
+                                    size: 12,
+                                    color: Colors.white,
+                                  ))
+                              : Container(),
+                        ],
+                      ),
                     );
                   },
                 ),

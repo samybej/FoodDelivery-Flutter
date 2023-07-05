@@ -15,6 +15,9 @@ class CartController extends GetxController {
 
   Map<int, CartModel> get items => _items;
 
+//to store in shared pereferences
+  List<CartModel> storageCartItems = [];
+
   void addItem(ProductModel product, int quantity) {
     var totalQuantity = 0;
 
@@ -32,6 +35,7 @@ class CartController extends GetxController {
             quantity: cartModel.quantity! + quantity,
             Exists: true,
             time: DateTime.now().toString(),
+            product: product,
           );
         },
       );
@@ -51,6 +55,7 @@ class CartController extends GetxController {
               quantity: quantity,
               Exists: true,
               time: DateTime.now().toString(),
+              product: product,
             );
           },
         );
@@ -63,6 +68,8 @@ class CartController extends GetxController {
         );
       }
     }
+    cartRepo.addToCartList(getItems);
+    update(); //update the UI
   }
 
   bool alreadyInCart(ProductModel product) {
@@ -103,7 +110,68 @@ class CartController extends GetxController {
     return totalQuantity;
   }
 
+  int get totalCartPrice {
+    var totalPrice = 0;
+
+    _items.forEach((key, value) {
+      totalPrice += value.quantity! * value.price!;
+    });
+
+    return totalPrice;
+  }
+
   List<CartModel> get getItems {
     return _items.entries.map((cart) => cart.value).toList();
+  }
+
+  List<CartModel> getCartLocalStorage() {
+    setCart = cartRepo.getCartList();
+    return storageCartItems;
+  }
+
+  void set setCart(List<CartModel> cartList) {
+    storageCartItems = cartList;
+
+    //this is not going to conflict with what we did in the addItem() method
+    //because that method checks if the item exists or not!if it does exist
+    //it only updates.
+    //Besides the getCartLocalStorage() method which calls the set method
+    //only gets called once(when the app starts)
+    //It's going to call the getCartList from the repo which then calls the
+    //shared preferences to get the local data...
+    //The method gets called in the main.dart build function !
+    for (int i = 0; i < storageCartItems.length; i++) {
+      _items.putIfAbsent(
+          storageCartItems[i].product!.id!, () => storageCartItems[i]);
+    }
+  }
+
+  void addToCartHistoryList() {
+    cartRepo.addToCartHistoryList();
+    clear();
+  }
+
+  void clear() {
+    _items = {};
+    update();
+  }
+
+  List<CartModel> getCartHistoryList() {
+    return cartRepo.getCartHistoryList();
+  }
+
+  Map<String, int> getCountItemsPerOrderTime() {
+    return cartRepo.getCountItemsPerOrderTime();
+  }
+
+  List<CartModel> getCorrespondingItemsPerTime(String? time) {
+    var correspondingList = <CartModel>[];
+    for (int i = 0; i < getCartHistoryList().length; i++) {
+      if (time == getCartHistoryList()[i].time) {
+        correspondingList.add(getCartHistoryList()[i]);
+      }
+    }
+
+    return correspondingList;
   }
 }

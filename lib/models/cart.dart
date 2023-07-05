@@ -1,3 +1,5 @@
+import 'package:delivrili/models/product.dart';
+
 class CartModel {
   int? id;
   String? name;
@@ -6,6 +8,7 @@ class CartModel {
   int? quantity;
   bool? Exists;
   String? time;
+  ProductModel? product;
 
   CartModel({
     this.id,
@@ -15,6 +18,7 @@ class CartModel {
     this.quantity,
     this.Exists,
     this.time,
+    this.product,
   });
 
   CartModel.fromJson(Map<String, dynamic> json) {
@@ -25,5 +29,20 @@ class CartModel {
     quantity = json['quantity'];
     Exists = json['isExist'];
     time = json['time'];
+    product = ProductModel.fromJson(json['product']);
+  }
+
+//to be able to save the list of carts to shared preferences, we need the following function to convert to json
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "price": price,
+      "img": img,
+      "quantity": quantity,
+      "isExist": Exists,
+      "time": time,
+      "product": product!.toJson(),
+    };
   }
 }
