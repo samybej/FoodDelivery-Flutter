@@ -4,6 +4,10 @@ import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/text_font_big.dart';
 import 'package:delivrili/widgets/text_font_small.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/popular_food_controller.dart';
+import '../../controllers/recommanded_food_controller.dart';
 
 class FoodPageView extends StatefulWidget {
   const FoodPageView({super.key});
@@ -13,10 +17,16 @@ class FoodPageView extends StatefulWidget {
 }
 
 class _FoodPageViewState extends State<FoodPageView> {
+  Future<void> _loadResources() async {
+    await Get.find<PopularFoodController>().getPopularProductList();
+    await Get.find<RecommandedFoodController>().getRecommandedProductList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return RefreshIndicator(
+      onRefresh: _loadResources,
+      child: Column(
         children: [
           //The header
           Container(

@@ -6,6 +6,8 @@ import 'package:delivrili/pages/home/food_page.dart';
 import 'package:delivrili/pages/home/splash_screen.dart';
 
 import 'package:delivrili/routes/routes.dart';
+import 'package:delivrili/user/login_view.dart';
+import 'package:delivrili/user/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'helpers/dependencies.dart' as dep;
@@ -31,9 +33,9 @@ class MyApp extends StatelessWidget {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
-              initialRoute: Routes.getSplashScreen(),
-              getPages: Routes.routes,
-              //home: SplashScreen(),
+              // initialRoute: Routes.getSplashScreen(),
+              // getPages: Routes.routes,
+              home: LogInView(),
             );
           },
         );
