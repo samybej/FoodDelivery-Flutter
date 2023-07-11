@@ -107,4 +107,14 @@ class CartRepo extends GetxService {
 
     return sortedByTime;
   }
+
+  void removeCart() {
+    _cart = [];
+    sharedPreferences.remove(AppConstants.CART_LIST);
+  }
+
+  void clearCartHistory() {
+    removeCart();
+    sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+  }
 }

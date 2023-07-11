@@ -2,6 +2,7 @@ import 'package:delivrili/pages/cart/cart_view.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/pages/home/home_page.dart';
 import 'package:delivrili/pages/home/splash_screen.dart';
+import 'package:delivrili/user/login_view.dart';
 import 'package:get/get.dart';
 
 import '../pages/food/recommanded_food_detail.dart';
@@ -12,6 +13,7 @@ class Routes {
   static const String recommandedFood = "/recommanded-food";
   static const String cartPage = "/cart-page";
   static const String splashScreen = "/splash-screen";
+  static const String loginPage = "/log-in";
 
   static String getSplashScreen() => '$splashScreen';
   static String getHome() => '$homeRoute';
@@ -30,6 +32,8 @@ class Routes {
   }
 
   static String getCartPage() => '$cartPage';
+
+  static String getLogInPage() => '$loginPage';
 
   static List<GetPage> routes = [
     GetPage(
@@ -68,6 +72,12 @@ class Routes {
         name: cartPage,
         page: () {
           return CartView();
+        },
+        transition: Transition.fadeIn),
+    GetPage(
+        name: loginPage,
+        page: () {
+          return LogInView();
         },
         transition: Transition.fadeIn),
   ];

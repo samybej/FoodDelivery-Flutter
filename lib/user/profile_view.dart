@@ -1,9 +1,13 @@
+import 'package:delivrili/controllers/auth_controller.dart';
+import 'package:delivrili/controllers/cart_controller.dart';
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/reusable_icons.dart';
 import 'package:delivrili/widgets/text_font_big.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../widgets/profile_widget.dart';
 
@@ -86,18 +90,28 @@ class ProfileView extends StatelessWidget {
                         iconSize: Dimensions.height20,
                         size: Dimensions.height20 * 2,
                       ),
-                      text: BigText(text: 'Samy'),
+                      text: BigText(text: 'Messages'),
                     ),
                     SizedBox(height: Dimensions.height30),
-                    ProfileWidget(
-                      icon: ReusableIcons(
-                        icon: Icons.message_outlined,
-                        backgroundColor: AppColors.mainColor,
-                        iconColor: Colors.white,
-                        iconSize: Dimensions.height20,
-                        size: Dimensions.height20 * 2,
+                    GestureDetector(
+                      onTap: () {
+                        if (Get.find<AuthController>().userIsLoggedIn()) {
+                          Get.find<AuthController>().clearSharedData();
+                          Get.find<CartController>().clear();
+                          Get.find<CartController>().clearCartHistory();
+                          Get.offNamed(Routes.getHome());
+                        }
+                      },
+                      child: ProfileWidget(
+                        icon: ReusableIcons(
+                          icon: Icons.logout,
+                          backgroundColor: AppColors.mainColor,
+                          iconColor: Colors.white,
+                          iconSize: Dimensions.height20,
+                          size: Dimensions.height20 * 2,
+                        ),
+                        text: BigText(text: 'Logout'),
                       ),
-                      text: BigText(text: 'Samy'),
                     ),
                   ],
                 ),

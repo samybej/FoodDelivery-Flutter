@@ -178,4 +178,9 @@ class CartController extends GetxController {
   Map<int, CartModel> setorderMoreMap(Map<int, CartModel> orderMoreMap) {
     return orderMoreMap;
   }
+
+  void clearCartHistory() {
+    cartRepo.clearCartHistory();
+    update();
+  }
 }

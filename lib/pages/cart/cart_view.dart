@@ -1,3 +1,4 @@
+import 'package:delivrili/controllers/auth_controller.dart';
 import 'package:delivrili/controllers/popular_food_controller.dart';
 import 'package:delivrili/controllers/recommanded_food_controller.dart';
 import 'package:delivrili/routes/routes.dart';
@@ -265,7 +266,9 @@ class CartView extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          cartController.addToCartHistoryList();
+                          Get.find<AuthController>().userIsLoggedIn()
+                              ? cartController.addToCartHistoryList()
+                              : Get.toNamed(Routes.getLogInPage());
                         },
                         child: Container(
                           padding: EdgeInsets.only(

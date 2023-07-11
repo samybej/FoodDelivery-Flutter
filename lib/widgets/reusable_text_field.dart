@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/dimensions.dart';
@@ -8,11 +7,13 @@ class ReusableTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData icon;
-  const ReusableTextField(
+  bool isPasswordField;
+  ReusableTextField(
       {super.key,
       required this.controller,
       required this.hintText,
-      required this.icon});
+      required this.icon,
+      this.isPasswordField = false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class ReusableTextField extends StatelessWidget {
         ],
       ),
       child: TextField(
+        obscureText: isPasswordField ? true : false,
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
@@ -41,7 +43,7 @@ class ReusableTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-              Dimensions.radius30,
+              Dimensions.radius15,
             ),
             borderSide: BorderSide(
               width: 1.0,
@@ -50,7 +52,7 @@ class ReusableTextField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-              Dimensions.radius30,
+              Dimensions.radius15,
             ),
             borderSide: BorderSide(
               width: 1.0,
@@ -59,7 +61,7 @@ class ReusableTextField extends StatelessWidget {
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-              Dimensions.radius30,
+              Dimensions.radius15,
             ),
           ),
         ),
