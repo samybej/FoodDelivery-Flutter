@@ -1,5 +1,5 @@
 import 'package:delivrili/models/response.dart';
-import 'package:delivrili/models/user.dart';
+import 'package:delivrili/models/userSignUp.dart';
 import 'package:delivrili/repository/auth_repo.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class AuthController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<ResponseModel> registration(User user) async {
+  Future<ResponseModel> registration(UserSignUp user) async {
     _isLoading = true;
     update(); //let the UI know that the state of isLoading changed
     Response response = await authRepo.registration(user);
@@ -27,10 +27,10 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  Future<ResponseModel> login(String email, String password) async {
+  Future<ResponseModel> login(String phone, String password) async {
     _isLoading = true;
     update(); //let the UI know that the state of isLoading changed
-    Response response = await authRepo.login(email, password);
+    Response response = await authRepo.login(phone, password);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
       await authRepo.saveUserToken(response.body["token"]);

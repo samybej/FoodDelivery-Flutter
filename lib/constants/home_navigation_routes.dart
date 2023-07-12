@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class NavigationRoute {
   static final List = [
     FoodPageView(),
-    LogInView(),
+    Container(child: Text('test')),
     CartHistoryView(),
     ProfileView(),
   ];

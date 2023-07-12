@@ -3,7 +3,7 @@ import 'package:delivrili/utils/api_constants.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/user.dart';
+import '../models/userSignUp.dart';
 
 class AuthRepo {
   final ApiClient apiClient;
@@ -11,7 +11,7 @@ class AuthRepo {
 
   const AuthRepo({required this.apiClient, required this.sharedPreferences});
 
-  Future<Response> registration(User user) async {
+  Future<Response> registration(UserSignUp user) async {
     return await apiClient.postData(
         AppConstants.REGISTRATION_URI, user.toJson());
   }
@@ -24,9 +24,9 @@ class AuthRepo {
     return sharedPreferences.getString(AppConstants.TOKEN) ?? "None";
   }
 
-  Future<Response> login(String email, String password) async {
+  Future<Response> login(String phone, String password) async {
     return await apiClient.postData(
-        AppConstants.LOGIN_URI, {"email": email, "password": password});
+        AppConstants.LOGIN_URI, {"phone": phone, "password": password});
   }
 
   Future<bool> saveUserToken(String token) async {

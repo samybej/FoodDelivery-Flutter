@@ -1,24 +1,14 @@
-import 'package:flutter/material.dart';
-
-@immutable
 class User {
+  final int id;
   final String name;
-  final String phone;
   final String email;
-  final String password;
+  final String phone;
+  final String orderCount;
 
-  const User(
-      {required this.name,
-      required this.phone,
+  User(
+      {required this.id,
+      required this.name,
       required this.email,
-      required this.password});
-
-  Map<String, dynamic> toJson() {
-    return {
-      "f_name": name,
-      "phone": phone,
-      "email": email,
-      "password": password,
-    };
-  }
+      required this.phone,
+      required this.orderCount});
 }

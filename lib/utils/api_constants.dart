@@ -8,6 +8,7 @@ class AppConstants {
   static const String HEALTHY_DRINKS_URI = "/api/v1/products/drinks";
   static const String REGISTRATION_URI = "/api/v1/auth/register";
   static const String LOGIN_URI = "/api/v1/auth/login";
+  static const String USER_INFO = "api/v1/customer/info";
   //img
   static const String UPLOAD_IMG_URL = "/uploads/";
 

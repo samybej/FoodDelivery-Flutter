@@ -1,5 +1,5 @@
 import 'package:delivrili/controllers/auth_controller.dart';
-import 'package:delivrili/models/user.dart';
+import 'package:delivrili/models/userSignUp.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/custom_snackbar.dart';
@@ -39,8 +39,8 @@ class SignUpView extends StatelessWidget {
       } else if (password.length < 6) {
         showCustomSnackBar("password must include at least 6 characters");
       } else {
-        User user =
-            User(name: name, phone: phone, email: email, password: password);
+        UserSignUp user = UserSignUp(
+            name: name, phone: phone, email: email, password: password);
         authController.registration(user).then((responseModel) {
           if (responseModel.isSuccessful) {
             print("successfull registration");

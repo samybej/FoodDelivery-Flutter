@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
-import '../models/user.dart';
+import '../models/userSignUp.dart';
 import '../widgets/custom_snackbar.dart';
 
 class LogInView extends StatelessWidget {
@@ -17,23 +17,21 @@ class LogInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
+    final phoneController = TextEditingController();
     final passwordController = TextEditingController();
 
     void login(AuthController authController) {
-      String email = emailController.text.trim();
+      String phone = phoneController.text.trim();
       String password = passwordController.text.trim();
 
-      if (email.isEmpty) {
+      if (phone.isEmpty) {
         showCustomSnackBar("email address is required");
-      } else if (GetUtils.isEmail(email) == false) {
-        showCustomSnackBar("Please type a valid email address");
       } else if (password.isEmpty) {
         showCustomSnackBar("password is required");
       } else if (password.length < 6) {
         showCustomSnackBar("password must include at least 6 characters");
       } else {
-        authController.login(email, password).then((responseModel) {
+        authController.login(phone, password).then((responseModel) {
           if (responseModel.isSuccessful) {
             Get.toNamed(Routes.getCartPage());
           } else {
@@ -66,9 +64,9 @@ class LogInView extends StatelessWidget {
                           ),
                         ),
                         ReusableTextField(
-                          controller: emailController,
-                          hintText: 'email',
-                          icon: Icons.email,
+                          controller: phoneController,
+                          hintText: 'phone',
+                          icon: Icons.phone,
                         ),
                         SizedBox(height: Dimensions.height20),
                         ReusableTextField(
