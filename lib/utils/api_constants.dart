@@ -8,7 +8,7 @@ class AppConstants {
   static const String HEALTHY_DRINKS_URI = "/api/v1/products/drinks";
   static const String REGISTRATION_URI = "/api/v1/auth/register";
   static const String LOGIN_URI = "/api/v1/auth/login";
-  static const String USER_INFO = "api/v1/customer/info";
+  static const String USER_INFO = "/api/v1/customer/info";
   //img
   static const String UPLOAD_IMG_URL = "/uploads/";
 
@@ -19,4 +19,7 @@ class AppConstants {
 
   static const String CART_LIST = "cart-List";
   static const String CART_HISTORY_LIST = "cart-histor-List";
+
+  static const String USER_ADDRESS = "user_address";
+  static const String GEOCODE_URI = "/api/v1/config/geocode-api";
 }

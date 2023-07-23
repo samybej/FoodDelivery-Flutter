@@ -1,5 +1,6 @@
 import 'package:delivrili/controllers/auth_controller.dart';
 import 'package:delivrili/models/userSignUp.dart';
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/custom_snackbar.dart';
@@ -44,6 +45,7 @@ class SignUpView extends StatelessWidget {
         authController.registration(user).then((responseModel) {
           if (responseModel.isSuccessful) {
             print("successfull registration");
+            Get.offNamed(Routes.getHome());
           } else {
             showCustomSnackBar(responseModel.message);
           }

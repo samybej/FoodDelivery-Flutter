@@ -19,6 +19,9 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool _userLoggedIn = Get.find<AuthController>().userIsLoggedIn();
     if (_userLoggedIn) {
+      print("the USER is logged IN ! ");
+      print("the token is : ${Get.find<AuthController>().getToken()}");
+
       Get.find<UserController>().getUserInfo();
     }
     return Scaffold(
@@ -29,7 +32,7 @@ class ProfileView extends StatelessWidget {
         body: GetBuilder<UserController>(
           builder: (userController) {
             return _userLoggedIn
-                ? (userController.isLoading
+                ? (userController.isLoaded == true
                     ? Container(
                         width: double.maxFinite,
                         margin: EdgeInsets.only(top: Dimensions.height20),
@@ -55,7 +58,8 @@ class ProfileView extends StatelessWidget {
                                         iconSize: Dimensions.height20,
                                         size: Dimensions.height20 * 2,
                                       ),
-                                      text: BigText(text: 'Samy'),
+                                      text: BigText(
+                                          text: userController.user!.name),
                                     ),
                                     SizedBox(height: Dimensions.height30),
                                     ProfileWidget(
@@ -66,7 +70,8 @@ class ProfileView extends StatelessWidget {
                                         iconSize: Dimensions.height20,
                                         size: Dimensions.height20 * 2,
                                       ),
-                                      text: BigText(text: '92108304'),
+                                      text: BigText(
+                                          text: userController.user!.phone),
                                     ),
                                     SizedBox(height: Dimensions.height30),
                                     ProfileWidget(
@@ -78,7 +83,7 @@ class ProfileView extends StatelessWidget {
                                         size: Dimensions.height20 * 2,
                                       ),
                                       text: BigText(
-                                          text: 'samy.bejaoui@esprit.tn'),
+                                          text: userController.user!.email),
                                     ),
                                     SizedBox(height: Dimensions.height30),
                                     ProfileWidget(
@@ -143,9 +148,47 @@ class ProfileView extends StatelessWidget {
                           ),
                         ),
                       ))
-                : Container(
-                    child: Center(
-                      child: Text('You are not logged in.'),
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: double.maxFinite,
+                          height: Dimensions.height20 * 10,
+                          margin: EdgeInsets.only(
+                              left: Dimensions.width20,
+                              right: Dimensions.width20),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radius15),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      "assets/image/signintocontinue.png"))),
+                        ),
+                        SizedBox(height: Dimensions.height20),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.getLogInPage());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Dimensions.width20,
+                                vertical: Dimensions.height15),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.mainColor, width: 1.8),
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radius15),
+                            ),
+                            child: BigText(
+                              text: "Click Here to Log in",
+                              color: Colors.black,
+                              size: Dimensions.font20,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   );
           },

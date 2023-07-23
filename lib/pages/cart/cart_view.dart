@@ -267,7 +267,8 @@ class CartView extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Get.find<AuthController>().userIsLoggedIn()
-                              ? cartController.addToCartHistoryList()
+                              ? //cartController.addToCartHistoryList()
+                              Get.toNamed(Routes.getAddressPage())
                               : Get.toNamed(Routes.getLogInPage());
                         },
                         child: Container(

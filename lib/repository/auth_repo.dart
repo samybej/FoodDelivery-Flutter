@@ -50,4 +50,8 @@ class AuthRepo {
     apiClient.token = "";
     apiClient.updateHeaders("");
   }
+
+  String getToken() {
+    return apiClient.token;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:delivrili/pages/address/add_address_page.dart';
 import 'package:delivrili/pages/cart/cart_view.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/pages/home/home_page.dart';
@@ -14,6 +15,7 @@ class Routes {
   static const String cartPage = "/cart-page";
   static const String splashScreen = "/splash-screen";
   static const String loginPage = "/log-in";
+  static const String addAddress = "/add-address";
 
   static String getSplashScreen() => '$splashScreen';
   static String getHome() => '$homeRoute';
@@ -34,6 +36,8 @@ class Routes {
   static String getCartPage() => '$cartPage';
 
   static String getLogInPage() => '$loginPage';
+
+  static String getAddressPage() => '$addAddress';
 
   static List<GetPage> routes = [
     GetPage(
@@ -80,5 +84,11 @@ class Routes {
           return LogInView();
         },
         transition: Transition.fadeIn),
+    GetPage(
+        name: addAddress,
+        page: () {
+          return AddAddressView();
+        },
+        transition: Transition.fadeIn)
   ];
 }
