@@ -36,10 +36,22 @@ class Address {
   Address.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _addressType = json['addres_type'] ?? "";
-    _contactPersonNumber = json['_contact_person_number'] ?? "";
-    _contactPersonName = json['_contact_person_name'] ?? "";
+    _contactPersonNumber = json['contact_person_number'] ?? "";
+    _contactPersonName = json['contact_person_name'] ?? "";
     _address = json["address"];
     _latitude = json["latitude"];
     _longitude = json["longitude"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": _id,
+      "address_type": _addressType,
+      "contact_person_number": _contactPersonNumber,
+      "contact_person_name": _contactPersonName,
+      "address": _address,
+      "latitude": _latitude,
+      "longitude": _longitude,
+    };
   }
 }

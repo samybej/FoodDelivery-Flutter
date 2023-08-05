@@ -1,5 +1,6 @@
 import 'package:delivrili/controllers/auth_controller.dart';
 import 'package:delivrili/controllers/cart_controller.dart';
+import 'package:delivrili/controllers/location_controller.dart';
 import 'package:delivrili/controllers/user_controller.dart';
 import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
@@ -86,15 +87,41 @@ class ProfileView extends StatelessWidget {
                                           text: userController.user!.email),
                                     ),
                                     SizedBox(height: Dimensions.height30),
-                                    ProfileWidget(
-                                      icon: ReusableIcons(
-                                        icon: Icons.location_on,
-                                        backgroundColor: AppColors.yellowColor,
-                                        iconColor: Colors.white,
-                                        iconSize: Dimensions.height20,
-                                        size: Dimensions.height20 * 2,
-                                      ),
-                                      text: BigText(text: 'Address'),
+                                    GetBuilder<LocationController>(
+                                      builder: (locationController) {
+                                        if (locationController
+                                            .addressList.isEmpty) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Get.offNamed(
+                                                  Routes.getAddressPage());
+                                            },
+                                            child: ProfileWidget(
+                                              icon: ReusableIcons(
+                                                icon: Icons.location_on,
+                                                backgroundColor:
+                                                    AppColors.yellowColor,
+                                                iconColor: Colors.white,
+                                                iconSize: Dimensions.height20,
+                                                size: Dimensions.height20 * 2,
+                                              ),
+                                              text: BigText(text: 'Address'),
+                                            ),
+                                          );
+                                        } else {
+                                          return ProfileWidget(
+                                            icon: ReusableIcons(
+                                              icon: Icons.location_on,
+                                              backgroundColor:
+                                                  AppColors.yellowColor,
+                                              iconColor: Colors.white,
+                                              iconSize: Dimensions.height20,
+                                              size: Dimensions.height20 * 2,
+                                            ),
+                                            text: BigText(text: 'Your address'),
+                                          );
+                                        }
+                                      },
                                     ),
                                     SizedBox(height: Dimensions.height30),
                                     ProfileWidget(
