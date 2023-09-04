@@ -4,6 +4,8 @@ import 'package:delivrili/controllers/auth_controller.dart';
 import 'package:delivrili/controllers/location_controller.dart';
 import 'package:delivrili/controllers/user_controller.dart';
 import 'package:delivrili/models/address.dart';
+import 'package:delivrili/pages/address/pick_address_map.dart';
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/reusable_text_field.dart';
@@ -41,11 +43,23 @@ class _AddAddressViewState extends State<AddAddressView> {
     }
 
     if (Get.find<LocationController>().addressList.isNotEmpty) {
+      //
+      if (Get.find<LocationController>().getUserAddressFromLocalStorage() ==
+          '') {
+        //if the address is empty in the local storage, we take it from the server and add it.
+        Get.find<LocationController>()
+            .saveUserAddress(Get.find<LocationController>().addressList.last);
+      }
+      Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(
           target: LatLng(
         double.parse(Get.find<LocationController>().getAddress["latitude"]),
         double.parse(Get.find<LocationController>().getAddress["longitude"]),
       ));
+      _initialPosition = LatLng(
+        double.parse(Get.find<LocationController>().getAddress["latitude"]),
+        double.parse(Get.find<LocationController>().getAddress["longitude"]),
+      );
     }
 
     super.initState();
@@ -104,6 +118,15 @@ class _AddAddressViewState extends State<AddAddressView> {
                             indoorViewEnabled: true,
                             mapToolbarEnabled: false,
                             myLocationEnabled: true,
+                            onTap: (latLng) {
+                              Get.toNamed(Routes.getPickAddressPage(),
+                                  arguments: PickAddressMapView(
+                                    fromSignup: false,
+                                    fromAddressPage: true,
+                                    googleMapController:
+                                        locationController.mapController,
+                                  ));
+                            },
                             onCameraIdle: () {
                               locationController.updatePosition(
                                   _cameraPosition, true);

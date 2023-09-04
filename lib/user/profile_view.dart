@@ -142,6 +142,8 @@ class ProfileView extends StatelessWidget {
                                         Get.find<CartController>().clear();
                                         Get.find<CartController>()
                                             .clearCartHistory();
+                                        Get.find<LocationController>()
+                                            .clearAddressList();
                                         Get.offNamed(Routes.getLogInPage());
                                       },
                                       child: ProfileWidget(

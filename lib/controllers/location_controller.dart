@@ -14,6 +14,7 @@ class LocationController extends GetxController implements GetxService {
   LocationController({required this.locationRepo});
 
   bool _loading = false;
+  bool get loading => _loading;
   late Position _position;
   Position get position => _position;
   late Position _pickPosition;
@@ -84,6 +85,9 @@ class LocationController extends GetxController implements GetxService {
       } catch (e) {
         print(e);
       }
+
+      _loading = false;
+      update();
     }
   }
 
@@ -96,6 +100,7 @@ class LocationController extends GetxController implements GetxService {
     } else {
       print("Error getting the google maps api");
     }
+    update();
     return address;
   }
 
@@ -154,5 +159,15 @@ class LocationController extends GetxController implements GetxService {
         address.toJson()); //it will encode the Map<> object to a json string
 
     return await locationRepo.saveUserAddress(userAddress);
+  }
+
+  void clearAddressList() {
+    _addressList = [];
+    _allAddressList = [];
+    update();
+  }
+
+  getUserAddressFromLocalStorage() {
+    return locationRepo.getUserAddress();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:delivrili/pages/address/add_address_page.dart';
+import 'package:delivrili/pages/address/pick_address_map.dart';
 import 'package:delivrili/pages/cart/cart_view.dart';
 import 'package:delivrili/pages/food/food_detail.dart';
 import 'package:delivrili/pages/home/home_page.dart';
@@ -16,6 +17,7 @@ class Routes {
   static const String splashScreen = "/splash-screen";
   static const String loginPage = "/log-in";
   static const String addAddress = "/add-address";
+  static const String pickAddressMap = "/pick-address";
 
   static String getSplashScreen() => '$splashScreen';
   static String getHome() => '$homeRoute';
@@ -38,6 +40,8 @@ class Routes {
   static String getLogInPage() => '$loginPage';
 
   static String getAddressPage() => '$addAddress';
+
+  static String getPickAddressPage() => '$pickAddressMap';
 
   static List<GetPage> routes = [
     GetPage(
@@ -88,6 +92,14 @@ class Routes {
         name: addAddress,
         page: () {
           return AddAddressView();
+        },
+        transition: Transition.fadeIn),
+    GetPage(
+        name: pickAddressMap,
+        page: () {
+          PickAddressMapView pickAddressMapView = Get.arguments;
+          //we use Get.arguments if we want to pass a widget because it passes everything not individual parameters
+          return pickAddressMapView;
         },
         transition: Transition.fadeIn)
   ];

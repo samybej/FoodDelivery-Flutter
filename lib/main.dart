@@ -8,6 +8,7 @@ import 'package:delivrili/pages/home/splash_screen.dart';
 import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/user/login_view.dart';
 import 'package:delivrili/user/sign_up_view.dart';
+import 'package:delivrili/utils/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'helpers/dependencies.dart' as dep;
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
               title: 'Flutter Demo',
               initialRoute: Routes.getSplashScreen(),
               getPages: Routes.routes,
+              theme: ThemeData(
+                  primaryColor: AppColors.mainColor, fontFamily: "Lato"),
               // home: LogInView(),
             );
           },
