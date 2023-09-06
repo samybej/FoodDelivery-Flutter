@@ -34,4 +34,9 @@ class LocationRepo {
     return await sharedPreferences.setString(
         AppConstants.USER_ADDRESS, address);
   }
+
+  Future<Response> getZone(String lat, String long) async {
+    return await apiClient
+        .getData('${AppConstants.USER_INFO}?lat=$lat&lng=$long');
+  }
 }
