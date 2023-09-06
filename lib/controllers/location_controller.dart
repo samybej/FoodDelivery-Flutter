@@ -43,6 +43,18 @@ class LocationController extends GetxController implements GetxService {
   late GoogleMapController _mapController;
   GoogleMapController get mapController => _mapController;
 
+  // The following variables are used to check if the user is in the service zone or not when picking the address
+  //the variables are : checkingServiceZoneAvailability, inZone, buttonDisabled
+
+  bool _checkingServiceZoneAvailability = false;
+  bool get checkingServiceZoneAvailability => _checkingServiceZoneAvailability;
+
+  bool _inZone = false;
+  bool get inZone => _inZone;
+
+  bool _buttonDisabled = true;
+  bool get buttonDisabled => _buttonDisabled;
+
   //setter for _mapController
   void setMapController(GoogleMapController mapController) {
     _mapController = mapController;
@@ -75,6 +87,16 @@ class LocationController extends GetxController implements GetxService {
               speedAccuracy: 1,
               speed: 1);
         }
+
+        ResponseModel responseModel = await getZone(
+            cameraPosition.target.latitude.toString(),
+            cameraPosition.target.longitude.toString(),
+            false);
+
+        // if the buttonDisabled = false , we are in the zone !
+        // meaning the getZone method returned a true for the responseModel
+        _buttonDisabled = !responseModel.isSuccessful;
+
         if (_changeAddress) {
           String _address = await getAddressFromGeocode(LatLng(
               cameraPosition.target.latitude, cameraPosition.target.longitude));
@@ -88,6 +110,8 @@ class LocationController extends GetxController implements GetxService {
 
       _loading = false;
       update();
+    } else {
+      _addressIsUpdated = true;
     }
   }
 
@@ -169,5 +193,40 @@ class LocationController extends GetxController implements GetxService {
 
   getUserAddressFromLocalStorage() {
     return locationRepo.getUserAddress();
+  }
+
+  void setAddAddressData() {
+    _position = _pickPosition;
+    _placemark = _pickPlacemark;
+    _addressIsUpdated = false;
+    update();
+  }
+
+  Future<ResponseModel> getZone(String lat, String lng, bool markerLoad) async {
+    late ResponseModel responseModel;
+
+    if (markerLoad) {
+      _loading = true;
+    } else {
+      _checkingServiceZoneAvailability = true;
+    }
+
+    update();
+
+    await Future.delayed(
+      Duration(seconds: 2),
+      () {
+        responseModel = ResponseModel(true, "success");
+        if (markerLoad) {
+          _loading = false;
+        } else {
+          _checkingServiceZoneAvailability = false;
+        }
+
+        update();
+      },
+    );
+
+    return responseModel;
   }
 }

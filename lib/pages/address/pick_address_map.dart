@@ -1,5 +1,6 @@
 import 'package:delivrili/controllers/location_controller.dart';
 import 'package:delivrili/controllers/user_controller.dart';
+import 'package:delivrili/routes/routes.dart';
 import 'package:delivrili/utils/dimensions.dart';
 import 'package:delivrili/utils/theme_colors.dart';
 import 'package:delivrili/widgets/custom_button.dart';
@@ -114,28 +115,54 @@ class _PickAddressMapViewState extends State<PickAddressMapView> {
                     ),
                   ),
                   Positioned(
-                    bottom: 200,
+                    bottom: 80,
                     left: Dimensions.width20,
                     right: Dimensions.width20,
-                    child: CustomButton(
-                      buttonText: 'address test',
-                      onPressed: locationController.loading
-                          ? null
-                          : () {
-                              //the following condition means : if the selected place exists
-                              if (locationController.pickPosition.latitude !=
-                                      0 &&
-                                  locationController.pickPlacemark.name !=
-                                      null) {
-                                if (widget.fromAddressPage) {
-                                  //if the googleMapController has been instanciated
-                                  if (widget.googleMapController != null) {
-                                    print("now you CLICKED on the button");
-                                  }
-                                } else {}
-                              }
-                            },
-                    ),
+                    child: locationController.checkingServiceZoneAvailability ==
+                            false
+                        ? CustomButton(
+                            buttonText: locationController.inZone
+                                ? widget.fromAddressPage
+                                    ? 'Pick Address'
+                                    : 'Pick Location'
+                                : 'Service not available in this location',
+                            onPressed: (locationController.buttonDisabled ||
+                                    locationController.loading)
+                                ? null
+                                : () {
+                                    //the following condition means : if the selected place exists
+                                    if (locationController
+                                                .pickPosition.latitude !=
+                                            0 &&
+                                        locationController.pickPlacemark.name !=
+                                            null) {
+                                      if (widget.fromAddressPage) {
+                                        //if the googleMapController has been instanciated
+                                        if (widget.googleMapController !=
+                                            null) {
+                                          print(
+                                              "now you CLICKED on the button");
+                                          widget.googleMapController!.moveCamera(
+                                              CameraUpdate.newCameraPosition(
+                                                  CameraPosition(
+                                                      target: LatLng(
+                                                          locationController
+                                                              .pickPosition
+                                                              .latitude,
+                                                          locationController
+                                                              .pickPosition
+                                                              .longitude))));
+                                          locationController
+                                              .setAddAddressData();
+                                        }
+                                        //Get.back() seems to cause some update problems especially when updating lists,values,etc
+                                        //Get.toNamed(Routes.getAddressPage());
+                                        Get.back();
+                                      }
+                                    }
+                                  },
+                          )
+                        : const Center(child: CircularProgressIndicator()),
                   ),
                 ],
               ),
